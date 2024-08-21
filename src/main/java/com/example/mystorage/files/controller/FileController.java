@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.mystorage.files.domain.Files;
+import com.example.mystorage.files.dto.FileUploadResponse;
 import com.example.mystorage.files.service.FileSystemStorageService;
 
 @RestController
@@ -23,7 +24,7 @@ public class FileController {
 
 	@PostMapping("/upload")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Files uploadFile(@RequestParam("file") MultipartFile file,
+	public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file,
 		@RequestParam("ownerId") String ownerId) {
 		return fileSystemStorageService.upload(file, ownerId);
 	}

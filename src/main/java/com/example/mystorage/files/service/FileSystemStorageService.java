@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.mystorage.files.domain.Files;
+import com.example.mystorage.files.dto.FileUploadResponse;
 import com.example.mystorage.files.exception.StorageException;
 import com.example.mystorage.files.repository.FileRepository;
 
@@ -26,7 +27,7 @@ public class FileSystemStorageService implements StorageService {
 		this.fileRepository = fileRepository;
 	}
 
-	public Files upload(MultipartFile file, String ownerId) {
+	public FileUploadResponse upload(MultipartFile file, String ownerId) {
 		try {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file.");
@@ -46,7 +47,8 @@ public class FileSystemStorageService implements StorageService {
 				.uploadTime(LocalDateTime.now())
 				.build();
 
-			return fileRepository.save(fileMetadata);
+			Files uploadedFile = fileRepository.save(fileMetadata);
+			return uploadedFile.toFileUploadResponse();
 
 		} catch (IOException e) {
 			throw new StorageException("Cannot store file outside current directory.");

@@ -3,6 +3,8 @@ package com.example.mystorage.files.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.example.mystorage.files.dto.FileUploadResponse;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,5 +38,19 @@ public class Files {
 		this.fileUrl = fileUrl;
 		this.ownerId = ownerId;
 		this.uploadTime = uploadTime;
+	}
+
+	// DTO로 변환하는 메서드
+	public FileUploadResponse toFileUploadResponse() {
+		return FileUploadResponse.of(
+			this.id,
+			this.fileName,
+			this.storedFileName,
+			this.fileSize,
+			this.fileType,
+			this.fileUrl,
+			this.ownerId,
+			this.uploadTime
+		);
 	}
 }
